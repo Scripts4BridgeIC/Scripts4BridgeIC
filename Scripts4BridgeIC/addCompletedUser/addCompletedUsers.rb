@@ -138,9 +138,7 @@ CSV.foreach(csv_file, headers:true) do |row|
 
       # Loop through each enrollment and when the correct enrollment is found
       # that enrollment is updated with the information in the row
-      puts "----------------- #{row['courseid']}"
       json["enrollments"].each_with_index do |arrayEnroll,i|
-        puts json["enrollments"][i]["links"]["learner"]["id"]
         if json["enrollments"][i]["links"]["learner"]["id"] == row['bridgeuserid']
           enroll = json["enrollments"][i]["id"]
           url = URI("#{base_url}/enrollments/#{enroll}")
@@ -162,8 +160,6 @@ CSV.foreach(csv_file, headers:true) do |row|
           # Send request and log the response
           response = http.request(request)
 
-          puts payload
-          puts response.code
           # If call has an error, report it back in terminal and move on to the next row
           unless response.code == "200"
             puts payload

@@ -57,6 +57,9 @@ rbenv rehash should be done after installing ruby or gems to recognize commands
 gem -v ensure that gem package manager is installed
 gem update —system to update gem package manager
 
+gem install json
+gem install net/http
+gem install csv
 
 quick overview of how to run scripts in terminal
 cd ~ goes to home

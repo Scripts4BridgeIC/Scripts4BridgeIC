@@ -1,11 +1,13 @@
 # Scripts4BridgeIC
 
 -----------------------------------
+
 This area is filled with scripts written to assist Bridge Implementations Consultant's with certain tasks, such as historical data migrations, retrieving Bridge IDs with unique IDs, etc...
 
 I will try to maintain a list of scripts on this readme with notes on their function but please check the script comments for more information and feel free to message me for more information, @swagsilewski on Slack or via email at swasilewski@instructure.com
 
 ------Script Description-----------------------------------
+
 -addCompletedUsers.rb
   This script takes a CSV file and adds the specified users, courses, scores and completed date and adds them to an instance.   The CSV file must be arranged into columns that are labeled 
     bridgeuserid: for the user id
@@ -15,6 +17,7 @@ I will try to maintain a list of scripts on this readme with notes on their func
     
     
 ------Setting Up Your Computer to Run Ruby Scripts-----------------------------------
+
 **still need to update this
 
 Ruby Setup Info:

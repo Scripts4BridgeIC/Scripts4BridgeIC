@@ -38,7 +38,7 @@ brew update will update it if you already have it
 
 ruby
 want at least 2.2.2 if you are going to run rails 
-2.4.1 is the version that these scripts work with
+2.3.1 is the version that these scripts work with
 ruby -v will check version
 ruby which will show where it is installed
 brew install rbenv

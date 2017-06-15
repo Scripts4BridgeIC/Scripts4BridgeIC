@@ -106,62 +106,71 @@ puts "------------------------------------------------------------------halfway-
 # Loop through each row is CSV file, search for enrollment and update that enrollment
 CSV.foreach(csv_file, headers:true) do |row|
 
-    # url for course enrollments. This data is used to find the users enrollments
-    # so that they can be updated.
-    url = URI("#{base_url}/course_templates/#{row['courseid']}/enrollments")
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
+    page  = 1
+    loop do
+      # url for course enrollments. This data is used to find the users enrollments
+      # so that they can be updated.
+      url = URI("#{base_url}/course_templates/#{row['courseid']}/enrollments?page=#{page}")
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
 
-    # Create request that will passed to pridge API endpoint
-    request = Net::HTTP::Get.new(url)
-    request["authorization"] = "Basic #{access_token}"
-    request["content-type"] = 'application/json'
-    request["cache-control"] = 'no-cache'
+      # Create request that will passed to pridge API endpoint
+      request = Net::HTTP::Get.new(url)
+      request["authorization"] = "Basic #{access_token}"
+      request["content-type"] = 'application/json'
+      request["cache-control"] = 'no-cache'
 
-    # Send request and log the response
-    response = http.request(request)
+      # Send request and log the response
+      response = http.request(request)
 
-    # If call has an error, report it back in terminal and move on to the next row
-    unless response.code == "200"
-      puts "#{row.to_s}-----------------------------error #{response.code}"
-      next
-    end
+      # If call has an error, report it back in terminal and move on to the next row
+      unless response.code == "200"
+        puts "#{row.to_s}-----------------------------error #{response.code}"
+        next
+      end
 
-    # Parse response, this should also be removed for speed reason after testing
-    json = JSON.parse(response.body)
+      # Parse response, this should also be removed for speed reason after testing
+      json = JSON.parse(response.body)
 
-    # Loop through each enrollment and when the correct enrollment is found
-    # that enrollment is updated with the information in the row
-    i = 0
-    while i < json["enrollments"].length
-      if json["enrollments"][i]["links"]["learner"]["id"] == row['bridgeuserid']
-        enroll = json["enrollments"][i]["id"]
-        url = URI("#{base_url}/enrollments/#{enroll}")
-        request = Net::HTTP::Patch.new(url)
-        request["authorization"] = "Basic #{access_token}"
-        request["content-type"] = 'application/json'
-        request["cache-control"] = 'no-cache'
+      # Conditional to know when we've gotten to the end of enrollment pages
+      break if json['enrollments'].length == 0
+      page += 1
 
-        # Added this because formatting of CSV for the school this script was written for
-        # was a bit... wonky so I just clipped out the bad bits rather than reformating the csv manually
-        stringDate = row['completed']
-        stringDate.slice! "+AC0"
-        stringDate.slice! "+AC0"
+      # Loop through each enrollment and when the correct enrollment is found
+      # that enrollment is updated with the information in the row
+      puts "----------------- #{row['courseid']}"
+      json["enrollments"].each_with_index do |arrayEnroll,i|
+        puts json["enrollments"][i]["links"]["learner"]["id"]
+        if json["enrollments"][i]["links"]["learner"]["id"] == row['bridgeuserid']
+          enroll = json["enrollments"][i]["id"]
+          url = URI("#{base_url}/enrollments/#{enroll}")
+          request = Net::HTTP::Patch.new(url)
+          request["authorization"] = "Basic #{access_token}"
+          request["content-type"] = 'application/json'
+          request["cache-control"] = 'no-cache'
 
-        # Create payload for API call
-        payload = {"enrollments" => ["completed_at" => stringDate,"score" => row['score']]}
-        request.body = payload.to_json
+          # Added this because formatting of CSV for the school this script was written for
+          # was a bit... wonky so I just clipped out the bad bits rather than reformating the csv manually
+          stringDate = row['completed']
+          stringDate.slice! "+AC0"
+          stringDate.slice! "+AC0"
 
-        # Send request and log the response
-        response = http.request(request)
+          # Create payload for API call
+          payload = {"enrollments" => ["completed_at" => stringDate,"score" => row['score']]}
+          request.body = payload.to_json
 
-        # If call has an error, report it back in terminal and move on to the next row
-        unless response.code == "200"
+          # Send request and log the response
+          response = http.request(request)
+
           puts payload
-          puts "#{row.to_s}-----------------------------error #{response.code}"
+          puts response.code
+          # If call has an error, report it back in terminal and move on to the next row
+          unless response.code == "200"
+            puts payload
+            puts "#{row.to_s}-----------------------------error #{response.code}"
+          end
         end
       end
-      i+=1
     end
 end
 

@@ -11,13 +11,13 @@ require 'json'
 require 'net/http'
 
 # Replace this with the your instance specific authentication token
-access_token = "accessToken"
+access_token = "MmFjNzFmMDItYmM2ZC00YTEyLTkyMjEtMjhjYmZkYmNkOTc1OjcxYjU5M2ZhLTgyNmQtNGQ2MS1hYmUwLThkNmQwYzAxYjVjNA=="
 
 # Your Bridge domain. Do not include https://, or, bridgeapp.com.
-bridge_domain = 'waz'
+bridge_domain = 'thriveupstate'
 
 # Path to the CSV file containing the learner enrollment ID, score, and completion date.
-csv_file = '/Users/username/location/userdata.csv'
+csv_file = '/Users/swasilewski/Desktop/Bridge/RubyScripts/thrive/TestThrive1.csv'
 
 #---------------------Do not edit below this line unless you know what you're doing-------------------#
 
@@ -105,8 +105,8 @@ puts "------------------------------------------------------------------halfway-
 
 # Loop through each row is CSV file, search for enrollment and update that enrollment
 CSV.foreach(csv_file, headers:true) do |row|
-
-    page  = 1
+    found = false
+    page  = 0
     loop do
       # url for course enrollments. This data is used to find the users enrollments
       # so that they can be updated.
@@ -126,7 +126,7 @@ CSV.foreach(csv_file, headers:true) do |row|
       # If call has an error, report it back in terminal and move on to the next row
       unless response.code == "200"
         puts "#{row.to_s}-----------------------------error #{response.code}"
-        next
+        break
       end
 
       # Parse response, this should also be removed for speed reason after testing
@@ -134,11 +134,13 @@ CSV.foreach(csv_file, headers:true) do |row|
 
       # Conditional to know when we've gotten to the end of enrollment pages
       break if json['enrollments'].length == 0
-      page += 1
+
 
       # Loop through each enrollment and when the correct enrollment is found
       # that enrollment is updated with the information in the row
       json["enrollments"].each_with_index do |arrayEnroll,i|
+        #puts "--------------page#{page}"
+        #puts json["enrollments"][i]["links"]["learner"]["id"]
         if json["enrollments"][i]["links"]["learner"]["id"] == row['bridgeuserid']
           enroll = json["enrollments"][i]["id"]
           url = URI("#{base_url}/enrollments/#{enroll}")
@@ -165,8 +167,12 @@ CSV.foreach(csv_file, headers:true) do |row|
             puts payload
             puts "#{row.to_s}-----------------------------error #{response.code}"
           end
+          found = true
         end
+        page += 1
+        break if found == true
       end
+      break if found == true
     end
 end
 

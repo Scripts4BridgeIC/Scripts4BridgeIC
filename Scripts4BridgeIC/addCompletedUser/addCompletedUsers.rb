@@ -11,13 +11,13 @@ require 'json'
 require 'net/http'
 
 # Replace this with the your instance specific authentication token
-access_token = "MmFjNzFmMDItYmM2ZC00YTEyLTkyMjEtMjhjYmZkYmNkOTc1OjcxYjU5M2ZhLTgyNmQtNGQ2MS1hYmUwLThkNmQwYzAxYjVjNA=="
+access_token = "access token"
 
 # Your Bridge domain. Do not include https://, or, bridgeapp.com.
-bridge_domain = 'thriveupstate'
+bridge_domain = 'waz'
 
 # Path to the CSV file containing the learner enrollment ID, score, and completion date.
-csv_file = '/Users/swasilewski/Desktop/Bridge/RubyScripts/thrive/TestThrive1.csv'
+csv_file = '/location/data.csv'
 
 #---------------------Do not edit below this line unless you know what you're doing-------------------#
 
@@ -123,6 +123,8 @@ CSV.foreach(csv_file, headers:true) do |row|
       # Send request and log the response
       response = http.request(request)
 
+
+
       # If call has an error, report it back in terminal and move on to the next row
       unless response.code == "200"
         puts "#{row.to_s}-----------------------------error #{response.code}"
@@ -135,12 +137,13 @@ CSV.foreach(csv_file, headers:true) do |row|
       # Conditional to know when we've gotten to the end of enrollment pages
       break if json['enrollments'].length == 0
 
+      puts "------------------course-#{row['courseid']}--page-#{page}"
 
       # Loop through each enrollment and when the correct enrollment is found
       # that enrollment is updated with the information in the row
       json["enrollments"].each_with_index do |arrayEnroll,i|
         #puts "--------------page#{page}"
-        #puts json["enrollments"][i]["links"]["learner"]["id"]
+        puts json["enrollments"][i]["links"]["learner"]["id"]
         if json["enrollments"][i]["links"]["learner"]["id"] == row['bridgeuserid']
           enroll = json["enrollments"][i]["id"]
           url = URI("#{base_url}/enrollments/#{enroll}")
@@ -162,6 +165,8 @@ CSV.foreach(csv_file, headers:true) do |row|
           # Send request and log the response
           response = http.request(request)
 
+          puts payload
+
           # If call has an error, report it back in terminal and move on to the next row
           unless response.code == "200"
             puts payload
@@ -169,9 +174,10 @@ CSV.foreach(csv_file, headers:true) do |row|
           end
           found = true
         end
-        page += 1
+
         break if found == true
       end
+      page += 1
       break if found == true
     end
 end

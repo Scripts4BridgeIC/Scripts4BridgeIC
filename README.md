@@ -64,10 +64,17 @@ gem install net/http
 gem install csv
 
 ## quick overview of how to run scripts in terminal
-cd ~ goes to home
+cd foldername 
+* go to folder named 'foldername'
 
-cd .. goes to one directory higher
+cd ~ 
+* goes to home directory
 
-ls lists files and folders in directory
+cd .. 
+* goes to one directory higher
 
-control-k will clear screen
+ls 
+* lists files and folders in directory
+
+<control+k> 
+* Pressing these two buttons will clear terminal log

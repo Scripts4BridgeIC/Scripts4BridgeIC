@@ -57,7 +57,7 @@ source ~/.bash_profile
 rbenv install 2.3.1 
 * to install this version
 rbenv rehash 
-*should be done after installing ruby or gems to recognize commands
+* should be done after installing ruby or gems to recognize commands
 
 gem -v 
 

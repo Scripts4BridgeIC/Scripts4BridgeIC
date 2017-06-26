@@ -65,6 +65,9 @@ gem install csv
 
 ## quick overview of how to run scripts in terminal
 cd ~ goes to home
+
 cd .. goes to one directory higher
+
 ls lists files and folders in directory
+
 control-k will clear screen

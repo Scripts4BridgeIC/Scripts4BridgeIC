@@ -18,29 +18,6 @@ csv_file = '/location/users.csv'
 # Path to the CSV file you would like as the output
 csv_file_out = '/location/usersOutput.csv'
 
-#---------------------Do not edit below this line unless you know what you're doing-------------------#
-
-# If access token is not defined, ask for token
-unless access_token
-    puts 'What is your access token? Do not include "Authorization Basic", only the token'
-    access_token = gets.chomp
-    sleep(1)
-end
-
-# If domain is not defined, ask for domain
-unless bridge_domain
-    puts 'What is your Bridge domain? Do not includes, "https://, or, bridgeapp.com"'
-    bridge_domain = gets.chomp
-    sleep(1)
-end
-
-# If CSV path is not defined, ask for path
-unless csv_file
-    puts 'Where is your enrollment update CSV located? e.g., "/Users/Name/Desktop/Example.csv"'
-    csv_file = gets.chomp
-    sleep(1)
-end
-
 # If file doesn't exist bail out
 unless File.exists?(csv_file)
     raise 'Error: cannot locate the CSV file at the specified file path. Please correct this and run again.'

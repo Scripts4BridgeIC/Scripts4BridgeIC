@@ -9,10 +9,11 @@ I will try to maintain a list of scripts on this readme with notes on their func
 Last substantive update: June 26, 2017
 
 ### createEnrollments.rb
-  This script takes a CSV file and adds the users therein to the courses specified. The CSV file requires two columns: One  with header UserID for the learner ID and one with the header CourseID for the course ID that that user should be enrolled in.
+This script takes a CSV file and adds the users therein to the courses specified. The CSV file requires two columns: One  with header UserID for the learner ID and one with the header CourseID for the course ID that that user should be enrolled in.
 
-### addCompletedUsers.rb *************Deprecated
-  This script takes a CSV file and adds the specified users, courses, scores and completed date and adds them to an instance.   The CSV file must be arranged into columns that are labeled 
+### addCompletedUsers.rb 
+### Deprecated-will be updating this soon
+This script takes a CSV file and adds the specified users, courses, scores and completed date and adds them to an instance.   The CSV file must be arranged into columns that are labeled 
     bridgeuserid: for the user id
     courseid: for the course id
     completed: the completion date in format yyyy-mm-dd
@@ -21,10 +22,9 @@ Last substantive update: June 26, 2017
 -----------------------------------------    
 ## Setting Up Your Computer to Run Ruby Scripts
 Last substantive update: June 23, 2017
-**still need to update this
 
-Ruby Setup Info:
 
+## Ruby Setup Info:
 List of needed stuff:
 xcode
 Plain Text Editor (atom)

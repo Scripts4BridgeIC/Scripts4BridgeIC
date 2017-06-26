@@ -11,6 +11,12 @@ Last substantive update: June 26, 2017
 ### createEnrollments.rb
 This script takes a CSV file and adds the users therein to the courses specified. The CSV file requires two columns: One  with header UserID for the learner ID and one with the header CourseID for the course ID that that user should be enrolled in.
 
+### getBridgeID.rb
+This script takes an CSV file of Unique IDs (in a column with header 'uniqueID') and creates a CSV file containing those IDs and their corresponding Bridge IDs.
+
+### getUniqueID.rb
+This script takes an CSV file of Bridge IDs (in a column with header 'uniqueID') and creates a CSV file containing those IDs and their corresponding Unique IDs.
+
 ### addCompletedUsers.rb 
 ### Deprecated-will be updating this soon
 This script takes a CSV file and adds the specified users, courses, scores and completed date and adds them to an instance.   The CSV file must be arranged into columns that are labeled 

@@ -59,14 +59,11 @@ rbenv install 2.3.1
 rbenv rehash 
 * should be done after installing ruby or gems to recognize commands
 
-gem -v 
-
 ensure that gem package manager is installed
-
-gem update —system 
+* gem -v 
 
 to update gem package manager
-
+* gem update —system 
 
 ### Most scripts will require these Gems
 * gem install json

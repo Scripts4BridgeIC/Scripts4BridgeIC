@@ -50,19 +50,24 @@ brew install rbenv
 ls -la
 nano .bash_profile
 eval “$(rbenv init -)” add this to bash profile
-hit contro-x then y then enter
-ensure that it is there by typing cat .bash_profile
+hit control-x then y then enter
+
+cat .bash_profile
+* ensure that it is there by typing 
+
 source ~/.bash_profile 
 * to enable that command
+
 rbenv install 2.3.1 
 * to install this version
+
 rbenv rehash 
 * should be done after installing ruby or gems to recognize commands
 
-ensure that gem package manager is installed
+To ensure that gem package manager is installed:
 * gem -v 
 
-to update gem package manager
+To update gem package manager:
 * gem update —system 
 
 ### Most scripts will require these Gems

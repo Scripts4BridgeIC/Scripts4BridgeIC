@@ -1,4 +1,5 @@
-# Script to get user id and bridge id in the same csv
+# Script to get unique id using bridge ID. Once this ID is acquired it creates
+# an output csv that has both items
 # gems to include make sure you have installed these on your computer
 # you can verify by going to terminal on your computer and typing in
 # gem install <gemname>
@@ -28,7 +29,6 @@ base_url = "https://#{bridge_domain}.bridgeapp.com/api/author"
 
 # Starting marker cause sometimes I forget to clear my console before starting scripts
 puts "------------------------------------------------------------------Starting"
-#csv_file_out = csv_file.encode("UTF-16be", :invalid=>:replace, :replace=>"?").encode('UTF-8')
 CSV.open(csv_file_out, "wb") do |csv_out|
   CSV.foreach(csv_file, headers:true) do |row|
     url = URI("#{base_url}/users/#{row['userid']}")

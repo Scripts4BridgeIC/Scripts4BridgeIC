@@ -73,6 +73,7 @@ gem install net/http
 
 gem install csv
 
+------------------------------
 ## Brief Overview of Using Terminal to Run Scripts
 cd foldername 
 * go to folder named 'foldername'

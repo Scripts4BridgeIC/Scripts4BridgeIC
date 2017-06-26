@@ -60,10 +60,12 @@ gem -v ensure that gem package manager is installed
 gem update —system to update gem package manager
 
 gem install json
+
 gem install net/http
+
 gem install csv
 
-## quick overview of how to run scripts in terminal
+## Brief Overview of Using Terminal to Run Scripts
 cd foldername 
 * go to folder named 'foldername'
 
@@ -78,3 +80,6 @@ ls
 
 <control+k> 
 * Pressing these two buttons will clear terminal log
+
+ruby filename.rb
+* Once you have navigated to the folder that the script is in, this command will run the script

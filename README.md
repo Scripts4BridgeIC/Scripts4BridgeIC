@@ -23,8 +23,6 @@ This script takes a CSV file and adds the specified users, courses, scores and c
 ## Setting Up Your Computer to Run Ruby Scripts
 Last substantive update: June 23, 2017
 
-
-## Ruby Setup Info:
 ### Items Needed:
 * Developer Tools
 * Homebrew Package Manager
@@ -36,10 +34,8 @@ Last substantive update: June 23, 2017
 ### developers tools:
 #### install xcode
 xcode-select — install
-#### check version
-gcc -v
 
-Homebrew Package manager
+### Homebrew Package manager
 http://brew.sh
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 download and install might need to hit enter

@@ -67,11 +67,11 @@ gem update —system
 
 to update gem package manager
 
-gem install json
 
-gem install net/http
-
-gem install csv
+### Most scripts will require these Gems
+* gem install json
+* gem install net/http
+* gem install csv
 
 ------------------------------
 ## Brief Overview of Using Terminal to Run Scripts

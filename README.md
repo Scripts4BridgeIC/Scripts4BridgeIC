@@ -41,7 +41,7 @@ http://brew.sh
 download and install might need to hit enter
 brew update will update it if you already have it
 
-ruby
+### Ruby
 want at least 2.2.2 if you are going to run rails 
 2.3.1 is the version that these scripts work with
 ruby -v will check version
@@ -64,6 +64,7 @@ rbenv install 2.3.1
 rbenv rehash 
 * should be done after installing ruby or gems to recognize commands
 
+### Ruby Gems
 To ensure that gem package manager is installed:
 * gem -v 
 

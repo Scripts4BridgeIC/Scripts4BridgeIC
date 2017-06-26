@@ -25,15 +25,15 @@ Last substantive update: June 23, 2017
 
 
 ## Ruby Setup Info:
-List of needed stuff:
+### List of needed stuff:
 * xcode
 * Plain Text Editor (atom)
 * Terminal (already on your computer)
 
-developers tools:
-install xcode
+### developers tools:
+#### install xcode
 xcode-select — install
-check version
+#### check version
 gcc -v
 
 Homebrew Package manager

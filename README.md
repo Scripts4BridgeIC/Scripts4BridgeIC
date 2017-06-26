@@ -64,7 +64,7 @@ gem install json
 gem install net/http
 gem install csv
 
-quick overview of how to run scripts in terminal
+## quick overview of how to run scripts in terminal
 cd ~ goes to home
 cd .. goes to one directory higher
 ls lists files and folders in directory

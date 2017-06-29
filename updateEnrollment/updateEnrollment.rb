@@ -11,13 +11,13 @@ require 'json'
 require 'net/http'
 
 # Replace this with the your instance specific authentication token
-access_token = "MGMzMzY0NjQtNDM2Ni00MzFkLTliNTQtNTA1N2NkNjE4NTFiOjdjY2I3YzlhLTJjNDUtNDZkYS05OThjLWMwZDNjMjM5Zjc5Mg=="
+access_token = "access token"
 
 # Your Bridge domain. Do not include https://, or, bridgeapp.com.
-bridge_domain = 'waz'
+bridge_domain = 'domain'
 
 # Path to the CSV file containing the learner enrollment ID, score, and completion date.
-csv_file = '/Users/swasilewski/Desktop/Bridge/RubyScripts/wazEnrollmentTest/users.csv'
+csv_file = '/location/users.csv'
 
 #---------------------Do not edit below this line unless you know what you're doing-------------------#
 

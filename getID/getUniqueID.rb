@@ -27,6 +27,8 @@ end
 # This script only deals with author api endpoints.
 base_url = "https://#{bridge_domain}.bridgeapp.com/api/author"
 
+errors = Array.new
+
 # Starting marker cause sometimes I forget to clear my console before starting scripts
 puts "------------------------------------------------------------------Starting"
 CSV.open(csv_file_out, "wb") do |csv_out|
@@ -43,6 +45,7 @@ CSV.open(csv_file_out, "wb") do |csv_out|
 
     unless response.code == "200"
       puts "#{row.to_s}-----------------------------error #{response.code}"
+      errors << "#{payload}\n"
       next
     end
 
@@ -54,3 +57,6 @@ CSV.open(csv_file_out, "wb") do |csv_out|
 
   end
 end
+
+puts errors
+puts "number of errors: #{errors.length}"

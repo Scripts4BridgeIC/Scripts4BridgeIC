@@ -29,6 +29,8 @@ end
 # This script only deals with author api endpoints.
 base_url = "https://#{bridge_domain}.bridgeapp.com/api/author"
 
+
+errors = Array.new
 # Starting marker cause sometimes I forget to clear my console before starting scripts
 puts "------------------------------------------------------------------Starting"
 
@@ -62,9 +64,12 @@ CSV.foreach(csv_file, headers:true) do |row|
   # If call has an error, report it back in terminal and move on to the next row
   unless response.code == "200"
     puts "#{row.to_s}-----------------------------error #{response.code}"
+    errors << "#{payload}\n"
   end
 end
 
 # Some markers so I know when I'm done.
 puts "------------------------------------------------------------------Hopefully done"
-puts "------------------------------------------------------------------check for errors"
+
+puts errors
+puts "number of errors: #{errors.length}"

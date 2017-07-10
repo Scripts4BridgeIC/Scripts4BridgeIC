@@ -45,7 +45,7 @@ CSV.open(csv_file_out, "wb") do |csv_out|
 
     unless response.code == "200"
       puts "#{row.to_s}-----------------------------error #{response.code}"
-      errors << "#{payload}\n"
+      errors << "#{row.to_s}\n"
       next
     end
 

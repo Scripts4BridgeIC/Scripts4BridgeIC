@@ -1,6 +1,6 @@
-# Script to add user enrollments to a course based on a CSV
-# file. Currently set to just add the user but grades, completion dates and
-# other attributes can be added as well, as per
+# Script to adjust user enrollments to a course based on a CSV
+# file. Currently set to grades and completion dates.
+# Other attributes can be added as well, as per
 # https://docs.bridgeapp.com/doc/api/html/author_enrollments.html
 
 # gems to include make sure you have installed these on your computer

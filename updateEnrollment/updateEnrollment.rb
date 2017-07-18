@@ -1,75 +1,69 @@
-# Script to update user enrollments based on CSV
-# file. Currently set to update completion date and score but you can update
-# other attributes as well as per
+# Script to add user enrollments to a course based on a CSV
+# file. Currently set to just add the user but grades, completion dates and
+# other attributes can be added as well, as per
 # https://docs.bridgeapp.com/doc/api/html/author_enrollments.html
 
 # gems to include make sure you have installed these on your computer
 # you can verify by going to terminal on your computer and typing in
 # gem install <gemname>
+
 require 'csv'
 require 'json'
 require 'net/http'
+#------------------Replace these values-----------------------------#
 
 # Replace this with the your instance specific authentication token
-access_token = "access token"
+access_token = "token"
 
 # Your Bridge domain. Do not include https://, or, bridgeapp.com.
 bridge_domain = 'domain'
 
-# Path to the CSV file containing the learner enrollment ID, score, and completion date.
-csv_file = '/location/users.csv'
+# Path to the CSV file containing the learner UserID and CourseID
+csv_file = '/Location/file.csv'
 
-#---------------------Do not edit below this line unless you know what you're doing-------------------#
-
-# If file doesn't exist bail out
+# Verify that the file exists
 unless File.exists?(csv_file)
     raise 'Error: cannot locate the CSV file at the specified file path. Please correct this and run again.'
 end
 
-# This script only deals with author api endpoints.
+# Sets the base URL used in our API calls
 base_url = "https://#{bridge_domain}.bridgeapp.com/api/author"
 
-
+# Array to track and report errors
 errors = Array.new
-# Starting marker cause sometimes I forget to clear my console before starting scripts
+
 puts "------------------------------------------------------------------Starting"
 
+# Loop through each row in CSV file and create users
+CSV.foreach(csv_file, {:headers => true}) do |row|
+    url = URI("#{base_url}/enrollments/#{row['enrollmentID']}")
 
-# Loop through each row is CSV file, search for enrollment and update that enrollment
-CSV.foreach(csv_file, headers:true) do |row|
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
 
-  url = URI("#{base_url}/enrollments/#{row['enrollmentID']}")
-  http = Net::HTTP.new(url.host, url.port)
-  http.use_ssl = true
-  request = Net::HTTP::Patch.new(url)
-  request["authorization"] = "Basic #{access_token}"
-  request["content-type"] = 'application/json'
-  request["cache-control"] = 'no-cache'
+    request = Net::HTTP::Patch.new(url)
+    request["authorization"] = "Basic #{access_token}"
+    request["content-type"] = 'application/json'
+    request["cache-control"] = 'no-cache'
 
-  # Added this because formatting of CSV for the school this script was written for
-  # was a bit... wonky so I just clipped out the bad bits rather than reformating the csv manually
-  stringDate = row['completed']
-  stringDate.slice! "+AC0"
-  stringDate.slice! "+AC0"
+    # Specify which user variables to adjust
+    payload = {"enrollments" => ["score"=>"#{row['score']}","completed_at"=>"#{row['date']}"]}
 
-  # Create payload for API call
-  payload = {"enrollments" => ["completed_at" => stringDate,"score" => row['score']]}
-  request.body = payload.to_json
-  # Send request and log the response
-  response = http.request(request)
+    # Convert payload to JSON
+    request.body = payload.to_json
 
-  puts payload
-  puts url
+    response = http.request(request)
+    unless response.code == "200"
+      errors << "#{payload}\n#{response.code}"
+    end
 
-  # If call has an error, report it back in terminal and move on to the next row
-  unless response.code == "200"
-    puts "#{row.to_s}-----------------------------error #{response.code}"
-    errors << "#{payload}\n"
-  end
+    #optional text for those who like to know what's happening
+    #puts "Enrollment has been updated for user #{row['user_id']} in course #{row['course_id']}"
+    puts "#{payload}\n#{response.code}"
 end
+puts "------------------------------------------------------------------Finishing"
 
-# Some markers so I know when I'm done.
-puts "------------------------------------------------------------------Hopefully done"
-
+# Display any items that did not return the correct response code
 puts errors
 puts "number of errors: #{errors.length}"
+puts 'Program finished. You should probably take care of all those errors!'

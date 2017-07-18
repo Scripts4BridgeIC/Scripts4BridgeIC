@@ -1,6 +1,6 @@
 # Script to add user enrollments to a course based on a CSV
-# file. Currently set to just add the user but grades, completion dates and
-# other attributes can be added as well, as per
+# file. Currently set to just add the user, grades, completion dates.
+# Other attributes can be added as well, as per
 # https://docs.bridgeapp.com/doc/api/html/author_enrollments.html
 
 # gems to include make sure you have installed these on your computer
@@ -13,13 +13,13 @@ require 'net/http'
 #------------------Replace these values-----------------------------#
 
 # Replace this with the your instance specific authentication token
-access_token = "access token"
+access_token = "token"
 
 # Your Bridge domain. Do not include https://, or, bridgeapp.com.
-bridge_domain = 'bomain'
+bridge_domain = 'domain'
 
 # Path to the CSV file containing the learner UserID and CourseID
-csv_file = '/location/data.csv'
+csv_file = '/Location/file.csv'
 
 # Verify that the file exists
 unless File.exists?(csv_file)
@@ -36,7 +36,7 @@ puts "------------------------------------------------------------------Starting
 
 # Loop through each row in CSV file and create users
 CSV.foreach(csv_file, {:headers => true}) do |row|
-    url = URI("#{base_url}/course_templates/#{row['CourseID']}/enrollments")
+    url = URI("#{base_url}/course_templates/#{row['course_id']}/enrollments")
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
@@ -45,21 +45,25 @@ CSV.foreach(csv_file, {:headers => true}) do |row|
     request["authorization"] = "Basic #{access_token}"
     request["content-type"] = 'application/json'
     request["cache-control"] = 'no-cache'
-    
+
     # Specify which user to add to the course
-    payload = {"enrollments" => ["user_id"=>"#{row["UserID"]}"]}
+    payload = {"enrollments" => ["user_id"=>"#{row["user_id"]}","score"=>"#{row['score']}","completed_at"=>"#{row['date']}"]}
 
     # Convert payload to JSON
     request.body = payload.to_json
-    
+
     response = http.request(request)
     unless response.code == "204"
-      errors << "#{row['user_id']}\n"
+      errors << "#{payload}\n#{response.code}"
     end
-    puts "Enrollment has been added for user #{row['UserID']} in course #{row['CourseID']}"
+
+    #optional text for those who like to know what's happening
+    #puts "Enrollment has been updated for user #{row['user_id']} in course #{row['course_id']}"
+    puts "#{payload}\n#{response.code}"
 end
 puts "------------------------------------------------------------------Finishing"
 
 # Display any items that did not return the correct response code
 puts errors
 puts "number of errors: #{errors.length}"
+puts 'Program finished. You should probably take care of all those errors!'

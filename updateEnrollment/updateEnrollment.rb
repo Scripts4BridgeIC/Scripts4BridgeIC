@@ -54,7 +54,7 @@ CSV.foreach(csv_file, {:headers => true}) do |row|
 
     response = http.request(request)
     unless response.code == "200"
-      errors << "#{payload}\n#{response.code}"
+      errors << "Enrollment #{row['enrollmentID']} returned a status code of #{response.code}\n#{payload}"
     end
 
     #optional text for those who like to know what's happening

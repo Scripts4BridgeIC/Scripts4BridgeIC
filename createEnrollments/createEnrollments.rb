@@ -47,7 +47,7 @@ CSV.foreach(csv_file, {:headers => true}) do |row|
     request["cache-control"] = 'no-cache'
 
     # Specify which user to add to the course
-    payload = {"enrollments" => ["user_id"=>"#{row["user_id"]}","score"=>"#{row['score']}","completed_at"=>"#{row['date']}"]}
+    payload = {"enrollments" => ["user_id"=>"#{row["user_id"]}","score"=>"#{row['score']}","completed_at"=>"#{row['date']}","expires_at"=>"#{row['expire_date']}"]}
 
     # Convert payload to JSON
     request.body = payload.to_json

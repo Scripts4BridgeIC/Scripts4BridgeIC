@@ -4,13 +4,13 @@ require 'net/http'
 #------------------Replace these values-----------------------------#
 
 # Replace this with the your instance specific authentication token
-access_token = "ZDA3ZjNhMGQtMDRjMy00NjE4LThiNWItZjNlMGM0YzFlMDRjOmEzY2M0MDk1LTFhMGYtNGM0Yi1hMDhkLTJhY2E5NzlhMDNjZg=="
+access_token = "token"
 
 # Your Bridge domain. Do not include https://, or, bridgeapp.com.
-bridge_domain = 'mistrasbridge'
+bridge_domain = 'instance'
 
 # Path to the CSV file containing the learner UserID and CourseID
-csv_file = '/Users/swasilewski/Desktop/Bridge/Customers/Mistras/historical/realFinalBatch/compilationFINALBatch.csv'
+csv_file = '/Users/location/file.csv'
 
 # Verify that the file exists
 unless File.exists?(csv_file)
